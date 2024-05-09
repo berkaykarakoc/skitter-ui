@@ -1,22 +1,6 @@
+import { decrypt } from "@/app/lib/session"
+import { LogoutButton } from "@/components/logout-button"
 import { cookies } from "next/headers"
-
-async function getUserDetails(username: string) {
-  const accessToken = cookies().get("accessToken")
-  const res = await fetch(
-    `http://127.0.0.1:3000/api/users/${username}/details`,
-    {
-      headers: {
-        Authorization: `Bearer ${accessToken?.value}`
-      },
-    }
-  )
-  if (res.status === 404) { 
-    return `${username} does not exist`
-  }
-
-  const data = await res.json()
-  return data
-}
 
 export default async function ProfilePage({
   params,
@@ -26,7 +10,32 @@ export default async function ProfilePage({
   const { username } = params
 
   const userDetails = await getUserDetails(username)
-  return <UserDetails userDetails={userDetails} />
+  return (
+    <div>
+      <LogoutButton />
+      <UserDetails userDetails={userDetails} />
+    </div>
+  )
+}
+
+async function getUserDetails(username: string) {
+  const cookie = cookies().get("session")?.value
+  const session = await decrypt(cookie)
+
+  const res = await fetch(
+    `http://127.0.0.1:3000/api/users/${session?.username}`,
+    {
+      headers: {
+        Authorization: `Bearer ${session?.access_token}`,
+      },
+    }
+  )
+  if (res.status === 404) {
+    return `${username} does not exist`
+  }
+
+  const data = await res.json()
+  return data
 }
 
 function UserDetails({ userDetails }: any) {

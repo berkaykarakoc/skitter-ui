@@ -1,15 +1,15 @@
 "use client"
 
-import { signUp } from "@/app/actions/auth"
+import { signup } from "@/app/actions/auth"
 import { useFormStatus } from "react-dom"
 
-export function SignUpForm() {
+export function SignupForm() {
   return (
     <form
-      action={signUp}
+      action={signup}
       className="flex flex-col rounded max-w-[500px] mb-10 mx-auto space-y-2 p-10"
     >
-      <div>
+      <div className="flex flex-col">
         <label htmlFor="username">Username</label>
         <input
           id="username"
@@ -19,7 +19,7 @@ export function SignUpForm() {
           required
         />
       </div>
-      <div>
+      <div className="flex flex-col">
         <label htmlFor="email">Email</label>
         <input
           id="email"
@@ -30,7 +30,7 @@ export function SignUpForm() {
           required
         />
       </div>
-      <div>
+      <div className="flex flex-col">
         <label htmlFor="password">Password</label>
         <input
           id="password"
@@ -41,12 +41,13 @@ export function SignUpForm() {
           required
         />
       </div>
-      <SignUpButton />
+
+      <SignupButton />
     </form>
   )
 }
 
-export function SignUpButton() {
+export function SignupButton() {
   const { pending } = useFormStatus()
 
   return (

@@ -9,20 +9,26 @@ export function LoginForm() {
       action={login}
       className="flex flex-col rounded max-w-[500px] mb-10 mx-auto space-y-2 p-10"
     >
-      <input
-        type="text"
-        name="username"
-        placeholder="Username"
-        className="border rounded h-10 px-3 text-black"
-        required
-      />
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        className="border rounded h-10 px-3 text-black"
-        required
-      />
+      <div className="flex flex-col">
+        <label htmlFor="username">Username</label>
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          className="border rounded h-10 px-3 text-black"
+          required
+        />
+      </div>
+      <div className="flex flex-col">
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          className="border rounded h-10 px-3 text-black"
+          required
+        />
+      </div>
 
       <LoginButton />
     </form>
