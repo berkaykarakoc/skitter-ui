@@ -11,8 +11,6 @@ export async function signup(formData: FormData) {
     password: formData.get("password"),
   })
 
-  console.log(validatedFields)
-
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
