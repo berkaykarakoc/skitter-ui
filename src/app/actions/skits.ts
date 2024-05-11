@@ -29,7 +29,7 @@ export async function postSkit(formData: FormData) {
     }
   }
 
-  //redirect(`/profile`)
+  redirect(`/home`)
 }
 
 export async function getSkits() {
