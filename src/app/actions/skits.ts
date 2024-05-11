@@ -31,7 +31,7 @@ export async function postSkit(formData: FormData) {
     }
   }
 
-  redirect(`/profile`)
+  //redirect(`/profile`)
 }
 
 export async function getSkits() {

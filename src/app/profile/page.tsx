@@ -1,6 +1,4 @@
 import { decrypt } from "@/app/lib/session"
-import { LogoutButton } from "@/components/logout-button"
-import { PostSkitForm } from "@/components/post-skit-form"
 import { SkitList } from "@/components/skit-list"
 import { cookies } from "next/headers"
 import { getSkits } from "../actions/skits"
@@ -9,10 +7,8 @@ export default async function ProfilePage() {
   const userDetails = await getUserDetails()
   const skits = await getSkits()
   return (
-    <div>
-      <LogoutButton />
+    <div className="space-y-4">
       <UserDetails userDetails={userDetails} />
-      <PostSkitForm />
       <SkitList skits={skits}/>
     </div>
   )
@@ -23,7 +19,7 @@ async function getUserDetails() {
   const session = await decrypt(cookie)
 
   const res = await fetch(
-    `http://127.0.0.1:3000/api/users/${session?.username}`,
+    `http://127.0.0.1:3000/api/profiles`,
     {
       headers: {
         Authorization: `Bearer ${session?.access_token}`,
@@ -31,7 +27,7 @@ async function getUserDetails() {
     }
   )
   if (res.status === 404) {
-    return `${session?.username} does not exist`
+    return `${session?.userId} does not exist`
   }
 
   const data = await res.json()

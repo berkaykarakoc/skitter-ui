@@ -1,6 +1,9 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
+import Link from "next/link"
+import { cookies } from "next/headers"
+import { LogoutButton } from "@/components/logout-button"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -14,10 +17,33 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const isLoggedIn = cookies().get("session")?.value ? true : false
   return (
     <html lang="en">
       <body className="min-h-screen flex justify-center items-center p-24">
-        {children}
+        <nav className="absolute top-0 space-x-4">
+          {isLoggedIn ? (
+            <>
+              <Link href="/home">
+                Home
+              </Link>
+              <Link href="/profile">
+                Profile
+              </Link>
+              <LogoutButton />
+            </>
+          ) : (
+            <>
+              <Link href="/login" className="p-4">
+                Login
+              </Link>
+              <Link href="/signup" className="p-4">
+                Sign Up
+              </Link>
+            </>
+          )}
+        </nav>
+        <main>{children}</main>
       </body>
     </html>
   )

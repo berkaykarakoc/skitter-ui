@@ -61,11 +61,10 @@ export async function login(formData: FormData) {
   const data = await res.json()
 
   await createSession({
-    username,
     access_token: data.access_token,
   })
 
-  redirect("/profile")
+  redirect("/home")
 }
 
 export async function logout() {
