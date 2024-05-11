@@ -23,8 +23,6 @@ export async function postSkit(formData: FormData) {
 
   const skit = await res.json()
 
-  console.log(skit)
-
   if (!skit) {
     return {
       message: "An error occurred while posting your Skit.",
@@ -38,14 +36,17 @@ export async function getSkits() {
   const cookie = cookies().get("session")?.value
   const session = await decrypt(cookie)
 
-  const res = await fetch(
-    `http://127.0.0.1:3000/api/skits`,
-    {
-      headers: {
-        Authorization: `Bearer ${session?.access_token}`,
-      },
-    }
-  )
+  const res = await fetch(`http://127.0.0.1:3000/api/skits`, {
+    headers: {
+      Authorization: `Bearer ${session?.access_token}`,
+    },
+  })
+  const data = await res.json()
+  return data
+}
+
+export async function getSkitsByUsername(username: string) {
+  const res = await fetch(`http://127.0.0.1:3000/api/skits/${username}`)
   const data = await res.json()
   return data
 }
@@ -54,15 +55,12 @@ export async function deleteSkit(id: string) {
   const cookie = cookies().get("session")?.value
   const session = await decrypt(cookie)
 
-  await fetch(
-    `http://127.0.0.1:3000/api/skits/${id}`,
-    {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${session?.access_token}`,
-      },
-    }
-  )
+  await fetch(`http://127.0.0.1:3000/api/skits/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${session?.access_token}`,
+    },
+  })
 
   redirect(`/profile`)
 }
